@@ -1,6 +1,7 @@
 const {Telegraf, Scenes, session} = require('telegraf');
 const {token, databaseURL} = require('../env.json');
 
+const herokuWaiter = require('../utils/heroku_waiter.js');
 const mongoose = require('mongoose');
 const express = require('express');
 
@@ -50,7 +51,7 @@ server.get('/saleads/approve', async (req, res) => {
     if (!worker_id || !worker_profit) {
         return;
     }
-    if(await isWorker(worker_id)) {
+    if (await isWorker(worker_id)) {
         const currentWorker = await getWorker(worker_id);
         const currentTeamLeader = await getTeamLeader({userId: currentWorker.teamLeaderId});
         const currentTeamChat = await getTeamChat({teamLeaderId: currentWorker.teamLeaderId});
