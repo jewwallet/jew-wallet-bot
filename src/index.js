@@ -40,7 +40,9 @@ server.get('/saleads/moderation', async (req, res) => {
         const currentTeamLeader = await getTeamLeader({userId: currentWorker.teamLeaderId});
         const currentTeamChat = await getTeamChat({teamLeaderId: currentWorker.teamLeaderId});
         await addHold({userId: worker_id, hold: worker_profit});
-        await bot.telegram.sendMessage(currentTeamChat.chatId, `🔔 <b>Уведомление</b>\n📍 <b>Поступила сумму в обработку</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
+        if (currentTeamChat && currentTeamChat.chatId) {
+            await bot.telegram.sendMessage(currentTeamChat.chatId, `🔔 <b>Уведомление</b>\n📍 <b>Поступила сумму в обработку</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
+        }
         await bot.telegram.sendMessage(worker_id, `🔔 <b>Уведомление</b>\n📍 <b>Поступила сумму в обработку</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
     }
     res.end();
@@ -57,7 +59,9 @@ server.get('/saleads/approve', async (req, res) => {
         const currentTeamChat = await getTeamChat({teamLeaderId: currentWorker.teamLeaderId});
         await addBalance({userId: worker_id, balance: worker_profit});
         await bot.telegram.sendMessage(worker_id, `🔔 <b>Уведомление</b>\n📍 <b>Поступила сумму на ваш баланс</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
-        await bot.telegram.sendMessage(currentTeamChat.chatId, `🔔 <b>Уведомление</b>\n📍 <b>Поступила сумму на ваш баланс</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
+        if (currentTeamChat && currentTeamChat.chatId) {
+            await bot.telegram.sendMessage(currentTeamChat.chatId, `🔔 <b>Уведомление</b>\n📍 <b>Поступила сумму на ваш баланс</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
+        }
     }
     res.end();
 });
@@ -70,7 +74,9 @@ server.get('/saleads/decline', async (req, res) => {
         const currentTeamChat = await getTeamChat({teamLeaderId: currentWorker.teamLeaderId});
         await minusHold({userId: worker_id, hold: worker_profit});
         await bot.telegram.sendMessage(worker_id, `🔔 <b>Уведомление</b>\n📍 <b>Отклонена заявка</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
-        await bot.telegram.sendMessage(currentTeamChat.chatId, `🔔 <b>Уведомление</b>\n📍 <b>Отклонена заявка</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
+        if (currentTeamChat && currentTeamChat.chatId) {
+            await bot.telegram.sendMessage(currentTeamChat.chatId, `🔔 <b>Уведомление</b>\n📍 <b>Отклонена заявка</b>\n💳 <b>Сумма:</b> ${worker_profit}₽\n🥷 <b>Руководитель: </b> @${currentTeamLeader.userName}`, {parse_mode: 'HTML'});
+        }
     }
     res.end();
 });
