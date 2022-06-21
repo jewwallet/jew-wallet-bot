@@ -11,7 +11,6 @@ const {hasOffers, getOffers, deleteOffer} = require('../controllers/offerControl
 
 const teamLeaderKeyboard = require('../keyboards/teamLeaderKeyboard.js');
 const adminKeyboard = require('../keyboards/adminKeyboard.js');
-const editChatKeyboard = require('../keyboards/editChatKeyboard.js');
 const workerKeyboard = require('../keyboards/workerKeyboard.js');
 const deleteOfferKeyboard = require('../keyboards/deleteOfferKeyboard.js');
 const leaderOfferKeyboard = require('../keyboards/leaderOfferKeyboard.js');
@@ -32,6 +31,9 @@ bot.use(stage.middleware());
 
 server.get('/saleads/moderation', async (req, res) => {
     const {worker_id, worker_profit} = req.query;
+    if(!worker_id || !worker_profit) {
+        return;
+    }
     if (await isWorker(worker_id)) {
         const currentWorker = await getWorker(worker_id);
         const currentTeamLeader = await getTeamLeader({userId: currentWorker.teamLeaderId});
@@ -45,6 +47,9 @@ server.get('/saleads/moderation', async (req, res) => {
 
 server.get('/saleads/approve', async (req, res) => {
     const {worker_id, worker_profit} = req.query;
+    if (!worker_id || !worker_profit) {
+        return;
+    }
     if(await isWorker(worker_id)) {
         const currentWorker = await getWorker(worker_id);
         const currentTeamLeader = await getTeamLeader({userId: currentWorker.teamLeaderId});
