@@ -1,7 +1,7 @@
 const {Telegraf, Scenes, session} = require('telegraf');
 const {token, databaseURL} = require('../env.json');
 
-const herokuWaiter = require('../utils/heroku_waiter.js');
+const ping = require('../utils/auto_ping.js');
 const mongoose = require('mongoose');
 const express = require('express');
 
